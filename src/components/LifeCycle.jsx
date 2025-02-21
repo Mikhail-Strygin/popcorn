@@ -68,11 +68,11 @@ export function LifeCycle() {
     }, 1000);
     throw new Error();
 
-    return () => {
-      console.log("componentWillUnmount");
-      clearInterval(id);
-      clearTimeout(timerId);
-    };
+    // return () => {
+    //   console.log("componentWillUnmount");
+    //   clearInterval(id);
+    //   clearTimeout(timerId);
+    // };
   }, []);
 
   return (

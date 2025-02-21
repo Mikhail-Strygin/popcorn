@@ -1,4 +1,4 @@
-const API_KEY = "b1212e3a";
+// const API_KEY = "b1212e3a";
 
 // export async function getMovies(query) {
 //   try {
@@ -45,41 +45,11 @@ const API_KEY = "b1212e3a";
 // }
 
 export async function getMovies(query, controller) {
-  try {
-    const resp = await fetch(
-      `https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`,
-      {
-        signal: controller.signal,
-      }
-    );
-
-    if (!resp.ok) throw new Error("Request error");
-
-    const data = await resp.json();
-    if (data.Response === "False") throw new Error("Can't find some movies 🥹");
-
-    return data;
-  } catch (error) {
-    if (error.name === "AbortError") {
-      // console.log("предыдущий запрос отменен");
-      console.log(".");
+  const resp = await fetch(
+    `/api?apikey=${import.meta.env.VITE_API_KEY}&s=${query}`,
+    {
+      signal: controller.signal,
     }
-  }
-}
-
-export async function getMovieDescription(id) {
-  try {
-    const resp = await fetch(
-      `https://www.omdbapi.com/?apikey=${API_KEY}&i=${id}`
-    );
-
-    if (!resp.ok) throw new Error("Request error");
-
-    const data = await resp.json();
-    if (data.Response === "False") throw new Error("Can't find the movie 🥹");
-
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+  );
+  return await resp.json();
 }

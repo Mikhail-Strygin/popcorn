@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from "react";
 import { MovieBlock } from "../../Movies";
 import { Navbar } from "../../Nav";
 import { WatchedBlock } from "../../Watched";
-import { getMovies } from "../api";
 import { LifeCycle } from "../../LifeCycle";
 // import { ErrorBoundary } from "../../ErrorBoundary";
 import { ErrorBoundary } from "react-error-boundary";
+import { useGetMovies } from "../model/useGetMovies";
 
 // const tempMovieData = [
 //   {
@@ -80,56 +79,19 @@ import { ErrorBoundary } from "react-error-boundary";
 // }
 
 export function App() {
-  const [numResults, setNumResults] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [movies, setMovies] = useState([]);
-
-  const [activeMovie, setActiveMovie] = useState(null);
-  const abortController = useRef(null);
-
-  async function searchHandler(value) {
-    if (!value) {
-      setIsError(false);
-      setNumResults(0);
-      return;
-    }
-
-    if (abortController.current) {
-      abortController.current.abort();
-    }
-
-    const controller = new AbortController();
-    abortController.current = controller;
-
-    setIsLoading(true);
-    setIsError(false);
-    const data = await getMovies(value, controller);
-    setIsLoading(false);
-    !data ? setIsError(true) : setIsError(false);
-    data?.Search ? setMovies(data.Search) : setMovies([]); // setMovies(data?.Search || []);
-    setNumResults(data?.totalResults || 0);
-  }
-
-  useEffect(() => {
-    return () => {
-      if (abortController.current) {
-        abortController.current.abort();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log("component did mount");
-    if (activeMovie !== null) {
-      console.log("componentDidUpdate");
-    }
-  }, [activeMovie]);
-
+  const {
+    searchHandler,
+    numResults,
+    isLoading,
+    error,
+    movies,
+    activeMovie,
+    setActiveMovie,
+  } = useGetMovies();
   return (
     <>
       {/* <ErrorBoundary> */}
-      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+      <ErrorBoundary fallback={<div></div>}>
         {activeMovie && <LifeCycle activeMovie={activeMovie} />}
         {activeMovie && (
           <button onClick={() => setActiveMovie(null)}>
@@ -150,7 +112,7 @@ export function App() {
       <main className="main">
         <MovieBlock
           isLoading={isLoading}
-          isError={isError}
+          error={error}
           movies={movies}
           activeMovie={activeMovie}
           setActiveMovie={setActiveMovie}

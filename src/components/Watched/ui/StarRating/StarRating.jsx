@@ -1,7 +1,9 @@
 import React from "react";
 import { Star } from "./Star";
 
-export function StarRating() {
+export function StarRating({ rating, setRating }) {
+  // const [rating, setRating] = React.useState(0);
+  const [tempRating, setTempRating] = React.useState(rating);
   return (
     <div
       style={{
@@ -16,7 +18,13 @@ export function StarRating() {
         }}
       >
         {Array.from({ length: 10 }, (_, ind) => (
-          <Star key={ind} />
+          <Star
+            key={ind}
+            fill={ind < tempRating || ind < rating ? "gold" : "transparent"}
+            ind={ind}
+            onHover={setTempRating}
+            onMark={setRating}
+          />
         ))}
       </div>
       <span
@@ -25,7 +33,7 @@ export function StarRating() {
           color: "white",
         }}
       >
-        10/10
+        {rating < tempRating ? tempRating : rating}/10
       </span>
     </div>
   );
