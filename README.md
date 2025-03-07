@@ -1,8 +1,7 @@
-# React + Vite
+Приложение для поиска фильмов, с кратким описанием фильмов.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Приложение - учебный проект.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Краткое описание: Пользователь имеет на начальном этапе интерфейс и поисковую строку. 
+В поисковой строке юзер может осуществить поиск фильмов по названию, при клике на каждый из списка - получить описание фильма, дать ему оценку.
+При возвращении на начальный этап юзер увидит список с оцененными фильмами.
